@@ -6,6 +6,7 @@ function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
   document.getElementById("main").style.marginLeft = "250px";
   document.getElementById("overlayDiv").style.background = "#00000083";
+  document.getElementById("MenuOpenButtonId").innerHTML = "Pause Menu";
 }
 
 function closeNav() {
@@ -13,6 +14,7 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
   document.getElementById("overlayDiv").style.background = "#00000000";
+  document.getElementById("MenuOpenButtonId").innerHTML = "&#9776; Pause";
 }
 
 function myFunction() {
@@ -69,25 +71,13 @@ function draw() {
   //drawing sperms
   for (var i in sperms) {
     var s = sperms[i];
-    if (s.isPlayer === true) {
-      s.update();
-    } else {
-      s.npcUpdate();
-    }
-    if (s.isPlayer === false) {
-      var d = me.location.y - s.location.y;
-      if (d <= viewDisance && d >= -viewDisance) {
-        push();
-        s.checkCollision();
-        s.checkStats();
-        s.draw();
-        pop();
-      }
-    } else {
+    s.update();
+    s.checkCollision();
+    s.checkStats();
+    s.draw();
+    var d = me.location.y - s.location.y;
+    if (d <= viewDisance && d >= -viewDisance) {
       push();
-      s.checkCollision();
-      s.checkStats();
-      s.draw();
       pop();
     }
   }

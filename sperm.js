@@ -13,7 +13,7 @@ function Sperm(id, name, color, type) {
   self.tailWaveSpeed = 400;
   self.slowed = false;
   self.whoJammed = -1;
-  self.inUterus;
+  self.inUterus =false;
   self.tailLength = 5;
   self.r = 0.5;
   self.isPlayer = false;
@@ -85,13 +85,80 @@ function Sperm(id, name, color, type) {
       return;
     }
     //if click holded
-    if (mouseIsPressed) {
-      var middle = createVector(windowWidth / 2, windowHeight / 2);
-      var mouse = createVector(mouseX, mouseY);
-      //we are using moise and middle and sub to get a vector from middle toward the mouse with the angle
-      var force = mouse.sub(middle);
-      //here we set the magnitude of the vector toward mouse to the maxveForce
-      force.setMag(self.maxveForce);
+    if(self.isPlayer) {
+      if (mouseIsPressed) {
+        var middle = createVector(windowWidth / 2, windowHeight / 2);
+        var mouse = createVector(mouseX, mouseY);
+        //we are using moise and middle and sub to get a vector from middle toward the mouse with the angle
+        var force = mouse.sub(middle);
+        //here we set the magnitude of the vector toward mouse to the maxveForce
+        force.setMag(self.maxveForce);
+        //force.mult(0.01);
+        self.applyForce(force);
+        //here we add the tailCounter for the tail Sin wave, we go backward because otherwise it will wave oposit the direction we want
+        self.tailCounter -= 1;
+        if (self.tailCounter <= 0) {
+          self.tailCounter = 360;
+        }
+      }
+      else {
+        //stoping the velocity from getting too small (float)
+        if (self.velocity.mag() < 0.005 && self.velocity.mag() > -0.005 && self.velocity.mag() !== 0) {
+          self.velocity.mult(0);
+        }
+        //if(more than the number we topd to stop so we use a force to stop the sperm here)
+        else {
+          //this will stop the sperm with the velocity of 0.1 and direction of where uts going
+          var force = createVector(-self.velocity.x, -self.velocity.y);
+          force.mult(0.1);
+          self.applyForce(force);
+        }
+        self.tailCounter -= 0.01;
+        if (self.tailCounter <= 0) {
+          self.tailCounter = 360;
+        }
+      }
+      //here we set the angle of our sperm to where its moving
+      if (self.velocity.mag() !== 0) {
+        self.angle = self.velocity.heading();
+      }
+    }
+    else {
+      //if click holded
+      var force = createVector(0, 0);
+      // insideRoad = false;
+  
+      // if(!self.inUterus) {
+        for (var i in self.followPath) {
+          var d = self.followPath[i].y - self.location.y;
+          if (d < 0) {
+            d *= -1;
+          }
+          if (d <= NPC_sperm_steering_accuracy && self.followPath[i].y < self.location.y) {
+            force = createVector(self.followPath[i].x, self.followPath[i].y).sub(self.location);
+            // insideRoad = true;
+            break;
+          }
+        }
+
+        if(self.inUterus) {
+          force = createVector(ovum.location.x, ovum.location.y).sub(self.location);
+        }
+      // }
+  
+      // if(!insideRoad) {
+      //   force = createVector(ovum.location.x, ovum.location.y).sub(self.location);
+      //   self.inUterus = true;
+      // }
+  
+      // //here we set the magnitude of the vector toward mouse to the maxveForce
+      // if(self.inUterus) {
+      //   force.setMag(globalNPCMaxveForceInsideUvom);
+      // } else {
+        force.setMag(self.maxveForce);
+      // }
+  
+  
       //force.mult(0.01);
       self.applyForce(force);
       //here we add the tailCounter for the tail Sin wave, we go backward because otherwise it will wave oposit the direction we want
@@ -99,75 +166,16 @@ function Sperm(id, name, color, type) {
       if (self.tailCounter <= 0) {
         self.tailCounter = 360;
       }
-    }
-    else {
-      //stoping the velocity from getting too small (float)
-      if (self.velocity.mag() < 0.005 && self.velocity.mag() > -0.005 && self.velocity.mag() !== 0) {
-        self.velocity.mult(0);
-      }
-      //if(more than the number we topd to stop so we use a force to stop the sperm here)
-      else {
-        //this will stop the sperm with the velocity of 0.1 and direction of where uts going
-        var force = createVector(-self.velocity.x, -self.velocity.y);
-        force.mult(0.1);
-        self.applyForce(force);
-      }
-      self.tailCounter -= 0.01;
-      if (self.tailCounter <= 0) {
-        self.tailCounter = 360;
+      //here we set the angle of our sperm to where its moving
+      if (self.velocity.mag() !== 0) {
+        self.angle = self.velocity.heading();
       }
     }
-    //here we set the angle of our sperm to where its moving
-    if (self.velocity.mag() !== 0) {
-      self.angle = self.velocity.heading();
-    }
+
     self.applyPhysicsMovement();
     //here we check out of boundings and collision with 
     self.constrain();
-  }
-
-  //updating the stats
-  self.npcUpdate = function () {
-    if (isPaused) {
-      return;
-    }
-    //if click holded
-    var force = createVector(0, 0);
-
-    for (var i in self.followPath) {
-      var d = self.followPath[i].y - self.location.y;
-      if (d < 0) {
-        d *= -1;
-      }
-      if (d <= NPC_sperm_steering_accuracy && self.followPath[i].y < self.location.y) {
-        force = createVector(self.followPath[i].x, self.followPath[i].y).sub(self.location);
-        break;
-      }
-    }
-
-    // for(var i in self.followPath) {
-    //   var d = self.followPath[i].y - self.location.y;
-    //   if(d < 1 && self.followPath[i].y < self.location.y) {
-    //     self.followPath[i].passed = true;
-    //     force = createVector(self.followPath[i].x, self.followPath[i].y).sub(self.location);//createVector(self.followPath[i].x - self.location.x, self.followPath[i].y - self.location.y);
-    //   }
-    // }
-    //here we set the magnitude of the vector toward mouse to the maxveForce
-    force.setMag(self.maxveForce);
-    //force.mult(0.01);
-    self.applyForce(force);
-    //here we add the tailCounter for the tail Sin wave, we go backward because otherwise it will wave oposit the direction we want
-    self.tailCounter -= 1;
-    if (self.tailCounter <= 0) {
-      self.tailCounter = 360;
-    }
-    //here we set the angle of our sperm to where its moving
-    if (self.velocity.mag() !== 0) {
-      self.angle = self.velocity.heading();
-    }
-    self.applyPhysicsMovement();
-    //here we check out of boundings and collision with 
-    self.constrain();
+    
   }
 
   self.checkCollision = function () {
@@ -200,7 +208,11 @@ function Sperm(id, name, color, type) {
         var newZoom = map(uterusD, 0, 100, 30, 4);
         gameScale = lerp(gameScale, newZoom, 0.1);
       }
-      self.slowDown(uterusForce);
+      if(self.isPlayer) {
+        self.slowDown(uterusForce);
+      } else {
+        self.slowDown(uterusForceNPC);
+      }
       self.inUterus = true;
     }
   }
@@ -218,11 +230,11 @@ function Sperm(id, name, color, type) {
         var uterusD = dist(self.location.x, self.location.y, uterus.location.x, uterus.location.y);
         if (uterusD >= self.r + uterus.r) {
           self.resetSpeed();
+          self.inUterus = false;
+          self.slowed = false;
           if (self.isPlayer === true) {
             gameScale = staticGameScale;
           }
-          self.inUterus = false;
-          self.slowed = false;
         }
       }
     }
