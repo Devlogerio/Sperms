@@ -16,7 +16,7 @@
       padding: 0px;
       overflow: hidden;
       width: 100%;
-      height: 100%;
+      height: 99%;
       font-family: "Lato", sans-serif;
       user-select: none;
     }
@@ -40,13 +40,39 @@
       background-color: #111;
       overflow-x: hidden;
       transition: 0.5s;
-      padding-top: 60px;
+    }
+
+    .sidenavSetting {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      transition: 0.3s;
+      display: block;
+      white-space: nowrap;
+      width: 55%;
+    }
+
+    .inputNumber {
+      margin: 0;
+      margin-left: 8px;
+      display: inline-block;
+      width: 100px;
+      height: 20px;
+      border: 0px;
+      background-color: transparent;
+      opacity: 0.5;
+      text-align: center;
+      padding: 0;
+      color: #d60076;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     .sidenav a {
       padding: 8px 8px 8px 32px;
       text-decoration: none;
-      font-size: 25px;
+      font-size: 20px;
       color: #818181;
       display: block;
       transition: 0.3s;
@@ -59,9 +85,23 @@
     .sidenav .closebtn {
       position: absolute;
       top: 0;
-      right: 25px;
+      right: 20px;
       font-size: 36px;
       margin-left: 50px;
+    }
+
+    .stateDiv {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0px;
+      height: 0px;
+      color: #d60076;
+      font-weight: bold;
+      font-size: 15vh;
+      text-align: center;
+      vertical-align: middle;
     }
 
     #main {
@@ -72,12 +112,20 @@
     }
 
     @media screen and (max-height: 450px) {
-      .sidenav {
+      /* .sidenav {
         padding-top: 15px;
-      }
+      } */
 
       .sidenav a {
         font-size: 18px;
+      }
+      
+      .sidenavSetting {
+          font-size: 18px;
+      }
+
+      .inputNumber {
+          font-size: 18px;
       }
     }
   </style>
@@ -90,13 +138,54 @@
   <div id="overlayDiv" class="overlayDiv">
   </div>
   <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="cclosebtn" onclick="closeNav()">Continue</a>
-    <a href="#">Default</a>
-    <a href="#">About</a>
-  </div>
+    <a id="gameStateText" href="#" style="color: #d60076; font-weight: bold; font-size: 30px;"></a>
+    <a href="#" class="cclosebtn" onclick="closeNav()">Play</a>
+    <a href="#" onclick="newGame()">Generate New Game</a>
+    <a href="#">About Creator</a>
+    <a href="#" onclick="window.location.reload();">Default Settings</a>
+    <div class="sidenavSetting"><label>PlayerColor</label><input oninput="PlayerColor = document.getElementById('PlayerColor').value" id="PlayerColor" value="#ffffff" type="color" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>startGameDelay</label><input oninput="startGameDelay = document.getElementById('startGameDelay').value" id="startGameDelay" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>GlobalFPS</label><input oninput="GlobalFPS = document.getElementById('GlobalFPS').value" id="GlobalFPS" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>roadStrokeWeight</label><input oninput="roadStrokeWeight = document.getElementById('roadStrokeWeight').value" id="roadStrokeWeight" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>mapWidth</label><input oninput="mapWidth = document.getElementById('mapWidth').value" id="mapWidth" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>mapHeight</label><input oninput="mapHeight = document.getElementById('mapHeight').value" id="mapHeight" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>roadWidth</label><input oninput="roadWidth = document.getElementById('roadWidth').value" id="roadWidth" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>roadEndingY</label><input oninput="roadEndingY = document.getElementById('roadEndingY').value" id="roadEndingY" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>roadSidesForce</label><input oninput="roadSidesForce = document.getElementById('roadSidesForce').value" id="roadSidesForce" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>roadsideSqueeshinessMultiplier</label><input oninput="roadsideSqueeshinessMultiplier = document.getElementById('roadsideSqueeshinessMultiplier').value" id="roadsideSqueeshinessMultiplier" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>ovumR</label><input oninput="ovumR = document.getElementById('ovumR').value; ovumOuterLayerR = ovumR * 12;" id="ovumR" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>globalVelocityLimit</label><input oninput="globalVelocityLimit = document.getElementById('globalVelocityLimit').value" id="globalVelocityLimit" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>globalMaxveForce</label><input oninput="globalMaxveForce = document.getElementById('globalMaxveForce').value" id="globalMaxveForce" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>globalNPCVelocityLimit</label><input oninput="globalNPCVelocityLimit = document.getElementById('globalNPCVelocityLimit').value" id="globalNPCVelocityLimit" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>globalNPCMaxveForce</label><input oninput="globalNPCMaxveForce = document.getElementById('globalNPCMaxveForce').value" id="globalNPCMaxveForce" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting"><label>globalNPCVelocityLimitInUvom</label><input oninput="globalNPCVelocityLimitInUvom = document.getElementById('globalNPCVelocityLimitInUvom').value" id="globalNPCVelocityLimitInUvom" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>globalNPCMaxveForceInUvom</label><input oninput="globalNPCMaxveForceInUvom = document.getElementById('globalNPCMaxveForceInUvom').value" id="globalNPCMaxveForceInUvom" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>globalNPCMaxveForceInsideUvom</label><input oninput="globalNPCMaxveForceInsideUvom = document.getElementById('globalNPCMaxveForceInsideUvom').value" id="globalNPCMaxveForceInsideUvom" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>jelliesSlowDownNPC</label><input oninput="jelliesSlowDownNPC = document.getElementById('jelliesSlowDownNPC').value" id="jelliesSlowDownNPC" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>NPCJammersSlowedDown</label><input oninput="NPCJammersSlowedDown = document.getElementById('NPCJammersSlowedDown').value" id="NPCJammersSlowedDown" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>jammersForce</label><input oninput="jammersForce = document.getElementById('jammersForce').value" id="jammersForce" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>jelliesForce</label><input oninput="jelliesForce = document.getElementById('jelliesForce').value" id="jelliesForce" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>uterusForce</label><input oninput="uterusForce = document.getElementById('uterusForce').value" id="uterusForce" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>uterusForceNPC</label><input oninput="uterusForceNPC = document.getElementById('uterusForceNPC').value" id="uterusForceNPC" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>spermPupolation</label><input oninput="spermPupolation = document.getElementById('spermPupolation').value" id="spermPupolation" value="50" type="number" class="inputNumber"></input></div>   
+    <div class="sidenavSetting" href="#"><label>NPC_sperm_steering_accuracy</label><input oninput="NPC_sperm_steering_accuracy = document.getElementById('NPC_sperm_steering_accuracy').value" id="NPC_sperm_steering_accuracy" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>jammersCrowd</label><input oninput="jammersCrowd = document.getElementById('jammersCrowd').value" id="jammersCrowd" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>jelliesCrowd</label><input oninput="jelliesCrowd = document.getElementById('jelliesCrowd').value" id="jelliesCrowd" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>algasCrowd</label><input oninput="algasCrowd = document.getElementById('algasCrowd').value" id="algasCrowd" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>jelliesMaxYSpawn</label><input oninput="jelliesMaxYSpawn = document.getElementById('jelliesMaxYSpawn').value;" id="jelliesMaxYSpawn" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>graphicQuality</label><input oninput="graphicQuality = document.getElementById('graphicQuality').value" id="graphicQuality" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>gameViewScale</label><input oninput="gameViewScale = document.getElementById('gameViewScale').value; gameScale = gameViewScale" id="gameViewScale" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>MaxZoomGameScale</label><input oninput="MaxZoomGameScale = document.getElementById('MaxZoomGameScale').value" id="MaxZoomGameScale" value="50" type="number" class="inputNumber"></input></div>
+    <div class="sidenavSetting" href="#"><label>viewDisance</label><input oninput="viewDisance = document.getElementById('viewDisance').value" id="viewDisance" value="50" type="number" class="inputNumber"></input></div>
+
+    
+</div>
 
   <div id="main">
-    <span id="MenuOpenButtonId" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Pause</span>
+    <span id="MenuOpenButtonId" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Pause</span>
+  </div>
+
+  <div id="stateText" class="stateDiv">
   </div>
 
 

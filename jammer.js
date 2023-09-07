@@ -7,7 +7,7 @@ var Jammer = function () {
 
   //Positioning the sperm at the begining
   self.putInLocation = function () {
-    var yPoint = floor(random(0, roadHeight - 50));
+    var yPoint = floor(random(0, roadHeight));
     var d = dist(roadLeft[yPoint].x, roadLeft[yPoint].y, roadRight[yPoint + leftRightDiffrance].x, roadRight[yPoint + leftRightDiffrance].y);
     self.location.x = roadLeft[yPoint].x + floor(random(self.r + roadStrokeWeight / 2, d - self.r - roadStrokeWeight / 2));
     self.location.y = roadLeft[yPoint].y;

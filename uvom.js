@@ -2,7 +2,7 @@
 
 var Ovum = function () {
     var self = Entity();
-    self.r = 10;
+    self.r = ovumR;
     self.yoff = 0.0;
     self.color = color(100, 50, 200, 255);
 
@@ -21,7 +21,7 @@ var Ovum = function () {
         noStroke();
         //draw body
         fill(255, 252, 216, 40);
-        ellipse(0, 0, self.r * 12, self.r * 12);
+        ellipse(0, 0, ovumOuterLayerR, self.r * (ovumOuterLayerR/ovumR)); // This is used in road * 12 as a Y multiplier
         fill(255, 250, 196, 40);
         ellipse(0, 0, self.r * 10, self.r * 10);
         fill(255, 247, 165, 40);

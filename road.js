@@ -1,12 +1,13 @@
 //Making the road with Noise
 function initializeRoad() {
+  noiseSeed(random(0, 100));
   //if player exists
   if (sperms[0]) {
     var inc = 0.003;
     var start = 0;
     xoff = start;
     //here we generate points with perlin noise using the inc variable and store them in two arrays
-    for (var y = roadEndingY; y <= mapHeight + 50; y++) {
+    for (var y = ovumOuterLayerR; y <= mapHeight; y++) {
       var x1 = (noise(xoff) * mapWidth - roadWidth / 2);
       var x2 = (noise(xoff) * mapWidth + roadWidth / 2);
       roadLeft.push({ x: x1, y: y });

@@ -1,5 +1,5 @@
 
-function Sperm(id, name, color, type) {
+function Sperm(id, name) {
   var self = Entity()
   self.name = '';
   self.velocityLimit = globalVelocityLimit;
@@ -18,6 +18,8 @@ function Sperm(id, name, color, type) {
   self.r = 0.5;
   self.isPlayer = false;
   self.followPath = [];
+  self.id = random();
+  self.color = color(255, 255, 255);
 
   self.generateTail = function () {
     for (var i = self.r * 2 + 0.5; i < self.tailLength; i += 0.2) {
@@ -27,10 +29,11 @@ function Sperm(id, name, color, type) {
   self.draw = function () {
     //setup
     push();
+
     translate(self.location.x, self.location.y);
     rotate(self.angle);
     strokeWeight(0.1);//0.4
-    fill(255, 255, 255, 150);
+    stroke(red(self.color), green(self.color), blue(self.color), 150);
     noFill();
     beginShape();
     //Draw tail
@@ -42,32 +45,19 @@ function Sperm(id, name, color, type) {
 
     //setup
     noStroke();
-    fill(255, 255, 255, 150);
+    fill(red(self.color), green(self.color), blue(self.color), 150);
     //draw body
     rect(-1.5, -0.15, 1, 0.3, 0.2);
     ellipse(0, 0, self.r * 3, self.r * 2);
-    fill(230, 230, 230, 255);
+    fill(red(self.color), green(self.color), blue(self.color), 255);
     ellipse(-0.2, 0, self.r * 2, self.r * 1);
 
-    //   //setup
-    //   strokeWeight(0.3);
-    //   stroke(215, 0, 215);
-    //   fill(255, 0, 255);
-    //   //draw body
-    //   ellipse(-2, 0, self.r, self.r/2);
-    //   ellipse(0, 0, self.r*2+1,self.r*2);
-    //   //setup
-    //   stroke(0);
-    //   fill(0);
-    //   //draw eyes
-    // //   ellipse(1, -0.5, 0.3,0.3);
-    // //   ellipse(1, 0.5, 0.3,0.3);
     pop();
   }
   //Positioning the sperm at the begining
   self.putInLocation = function () {
-    var yPoint = roadHeight - 50;
-    var d = dist(roadLeft[yPoint].x, roadLeft[yPoint].y, roadRight[yPoint + leftRightDiffrance].x, roadRight[yPoint + leftRightDiffrance].y);
+    var yPoint = roadHeight; // -1 because for AI movement we need the lower Y in road
+    var d = dist(roadLeft[yPoint].x, roadLeft[yPoint].y, roadRight[yPoint].x + leftRightDiffrance, roadRight[yPoint].y);
     self.location.x = roadLeft[yPoint].x + d / 2;
     self.location.y = roadLeft[yPoint].y;
   }
@@ -183,7 +173,7 @@ function Sperm(id, name, color, type) {
       var d = dist(self.location.x, self.location.y, jammers[i].location.x, jammers[i].location.y);
       if (d < self.r + jammers[i].r) {
         self.slowDown(jammersForce);
-        self.whoJammed = i;
+        self.whoJammed = i; 
       }
     }
     for (var i in jellies) {
@@ -215,6 +205,18 @@ function Sperm(id, name, color, type) {
       }
       self.inUterus = true;
     }
+    
+    //Collision with the egg
+    var d = dist(self.location.x, self.location.y, ovum.location.x, ovum.location.y);
+    if (d < self.r + ovum.r) {
+      if(self.isPlayer) {
+        gameEndTimer("You Won!");
+      } else {
+        gameEndTimer("You Lost!");
+      }
+    }
+
+
   }
   self.checkStats = function () {
     if (self.slowed === true) {
@@ -233,7 +235,7 @@ function Sperm(id, name, color, type) {
           self.inUterus = false;
           self.slowed = false;
           if (self.isPlayer === true) {
-            gameScale = staticGameScale;
+            gameScale = MaxZoomGameScale;
           }
         }
       }
@@ -265,9 +267,9 @@ function Sperm(id, name, color, type) {
   self.constrain = function () {
     //here we make the position never get out of the map rect
     // self.location.x = constrain(self.location.x,0,mapWidth);
-    self.location.y = constrain(self.location.y, 0, mapHeight);
+    // self.location.y = constrain(self.location.y, 0, mapHeight);
     //here we check the collision with right side of the road
-    for (var i = 1; i < roadRight.length; i++) {
+    for (var i = 1; i < roadRight.length - 1; i++) {
       if (roadRight[i - 1].y < self.location.y && self.location.y < roadRight[i + 1].y) {
         if (self.location.x + self.r > roadRight[i].x) {
           var force = createVector(self.location.x, roadRight[i].y - self.location.y);
@@ -280,7 +282,7 @@ function Sperm(id, name, color, type) {
       }
     }
     //here we check the collision with left side of the road
-    for (var i = 1; i < roadLeft.length; i++) {
+    for (var i = roadLeft.length - 2; i > 1; i--) {
       if (roadLeft[i - 1].y < self.location.y && self.location.y < roadLeft[i + 1].y) {
         if (self.location.x - self.r < roadLeft[i].x) {
           var force = createVector(self.location.x, roadLeft[i].y - self.location.y);

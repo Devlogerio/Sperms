@@ -1,39 +1,102 @@
 p5.disableFriendlyErrors = true;
+var startGameInterval;
 
-
-function openNav() {
+function openNav(state = "Sperms Menu") {
+  clearInterval(startGameInterval);
   isPaused = true;
-  document.getElementById("mySidenav").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
+  document.getElementById("mySidenav").style.width = "500px";
+  document.getElementById("main").style.marginLeft = "500px";
   document.getElementById("overlayDiv").style.background = "#00000083";
-  document.getElementById("MenuOpenButtonId").innerHTML = "Pause Menu";
+  document.getElementById("MenuOpenButtonId").innerHTML = "Paused";
+  document.getElementById("gameStateText").innerHTML = state;
 }
 
 function closeNav() {
-  isPaused = false;
+  // startGameTimerFunction = setTimeout(startTheGame, startGameDelay);
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
   document.getElementById("overlayDiv").style.background = "#00000000";
   document.getElementById("MenuOpenButtonId").innerHTML = "&#9776; Pause";
+  gameStartTimer();
 }
 
-function myFunction() {
-  var x = document.getElementById("myLinks");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
-  }
+// function startTheGame() {
+//   isPaused = false;
+//   clearTimeout(startGameTimerFunction);
+// }
+
+function gameStartTimer() {
+  var i = startGameDelay;
+  document.getElementById("stateText").innerHTML = i;
+  startGameInterval = setInterval(function() {
+    i--;
+    document.getElementById("stateText").innerHTML = i;
+    if (i === 0) {
+      document.getElementById("stateText").innerHTML = "";
+      clearInterval(startGameInterval);
+      isPaused = false;
+    }
+  }, 1000); // 1000 milliseconds = 1 second
+}
+
+function gameEndTimer(endText = "You Won!") {
+  newGame();
+  openNav();
+  document.getElementById("stateText").innerHTML = endText;
+}
+
+
+function newGame() {
+  // Setting the menu up 
+  document.getElementById('PlayerColor').value = PlayerColor;
+  document.getElementById('startGameDelay').value = startGameDelay;
+  document.getElementById('GlobalFPS').value = GlobalFPS;
+  document.getElementById('roadStrokeWeight').value = roadStrokeWeight;
+  document.getElementById('mapWidth').value = mapWidth;
+  document.getElementById('mapHeight').value = mapHeight;
+  document.getElementById('roadWidth').value = roadWidth;
+  document.getElementById('roadEndingY').value = roadEndingY;
+  document.getElementById('roadSidesForce').value = roadSidesForce;
+  document.getElementById('roadsideSqueeshinessMultiplier').value = roadsideSqueeshinessMultiplier;
+  document.getElementById('ovumR').value = ovumR;
+  ovumOuterLayerR = ovumR * 12;
+  document.getElementById('globalVelocityLimit').value = globalVelocityLimit;
+  document.getElementById('globalMaxveForce').value = globalMaxveForce;
+  document.getElementById('globalNPCVelocityLimit').value = globalNPCVelocityLimit;
+  document.getElementById('globalNPCMaxveForce').value = globalNPCMaxveForce;
+  document.getElementById('globalNPCVelocityLimitInUvom').value = globalNPCVelocityLimitInUvom;
+  document.getElementById('globalNPCMaxveForceInUvom').value = globalNPCMaxveForceInUvom;
+  document.getElementById('globalNPCMaxveForceInsideUvom').value = globalNPCMaxveForceInsideUvom;
+  document.getElementById('jelliesSlowDownNPC').value = jelliesSlowDownNPC;
+  document.getElementById('NPCJammersSlowedDown').value = NPCJammersSlowedDown;
+  document.getElementById('jammersForce').value = jammersForce;
+  document.getElementById('jelliesForce').value = jelliesForce;
+  document.getElementById('uterusForce').value = uterusForce;
+  document.getElementById('uterusForceNPC').value = uterusForceNPC;
+  document.getElementById('spermPupolation').value = spermPupolation;
+  document.getElementById('NPC_sperm_steering_accuracy').value = NPC_sperm_steering_accuracy;
+  document.getElementById('jammersCrowd').value = jammersCrowd;
+  document.getElementById('jelliesCrowd').value = jelliesCrowd;
+  document.getElementById('algasCrowd').value = algasCrowd;
+  document.getElementById('jelliesMaxYSpawn').value = jelliesMaxYSpawn;
+  document.getElementById('graphicQuality').value = graphicQuality;
+  document.getElementById('gameViewScale').value = gameViewScale;
+  gameScale = gameViewScale;
+  document.getElementById('MaxZoomGameScale').value = MaxZoomGameScale;
+  document.getElementById('viewDisance').value = viewDisance;
+
+  frameRate(GlobalFPS);
+  creation();
 }
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
-  frameRate(30);
   var density = displayDensity();
   pixelDensity(density);
-  creation();
+  
+  newGame();
   openNav();
 }
 
@@ -56,7 +119,7 @@ function draw() {
   var d1 = me.location.y - uterus.location.y;
   if (d1 <= viewDisance * 4 && d1 >= -viewDisance * 4)
     uterus.draw();
-  if (graphicQuality === 'high') {
+  if (graphicQuality === 1) {
     for (var i in leftAlgas) {
       var d = me.location.y - leftAlgas[i].location.y;
       if (d <= viewDisance && d >= -viewDisance)
@@ -74,10 +137,10 @@ function draw() {
     s.update();
     s.checkCollision();
     s.checkStats();
-    s.draw();
     var d = me.location.y - s.location.y;
     if (d <= viewDisance && d >= -viewDisance) {
       push();
+      s.draw();
       pop();
     }
   }

@@ -1,6 +1,21 @@
 function creation() {
+  sperms = [];
+  roadLeft = [];
+  roadRight = [];
+  roadMiddle = [];
+  jammers = [];
+  jellies = [];
+  leftAlgas = [];
+  rightAlgas = [];
+
+  if(mapHeight < ovumOuterLayerR) {
+    mapHeight = parseFloat(mapHeight) + parseFloat(ovumOuterLayerR);
+  }
+
   sperms[0] = new Sperm;
   sperms[0].isPlayer = true;
+  sperms[0].color = color(PlayerColor);
+
   for (var i = 0; i < spermPupolation; i++) {
     sperms.push(new Sperm);
   }
@@ -19,7 +34,7 @@ function creation() {
     jammers.push(new Jammer());
   }
   for (var i = 0; i < jelliesCrowd; i++) {
-    jellies.push(new Jelly(1));
+    jellies.push(new Jelly());
     // jellies.push(new Jelly(2));
     // jellies.push(new Jelly(3));
   }
