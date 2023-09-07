@@ -60,6 +60,7 @@ function Sperm(id, name) {
     var d = dist(roadLeft[yPoint].x, roadLeft[yPoint].y, roadRight[yPoint].x + leftRightDiffrance, roadRight[yPoint].y);
     self.location.x = roadLeft[yPoint].x + d / 2;
     self.location.y = roadLeft[yPoint].y;
+
   }
   self.setNpcFollowPath = function () {
     for (var i in roadLeft) {
@@ -145,7 +146,9 @@ function Sperm(id, name) {
       // if(self.inUterus) {
       //   force.setMag(globalNPCMaxveForceInsideUvom);
       // } else {
+        force.normalize();
         force.setMag(self.maxveForce);
+        console.log(self.maxveForce);
       // }
   
   
@@ -165,7 +168,7 @@ function Sperm(id, name) {
     self.applyPhysicsMovement();
     //here we check out of boundings and collision with 
     self.constrain();
-    
+    self.resetSpeed();
   }
 
   self.checkCollision = function () {

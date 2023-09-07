@@ -176,7 +176,6 @@ function windowResized() {
 }
 
 function keyPressed() {
-  console.log(key)
   if (key === 'Escape') { // 27 is the Escape key code
     if(!isPaused) {
       openNav();
