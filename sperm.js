@@ -148,7 +148,6 @@ function Sperm(id, name) {
       // } else {
         force.normalize();
         force.setMag(self.maxveForce);
-        console.log(self.maxveForce);
       // }
   
   
@@ -168,7 +167,6 @@ function Sperm(id, name) {
     self.applyPhysicsMovement();
     //here we check out of boundings and collision with 
     self.constrain();
-    self.resetSpeed();
   }
 
   self.checkCollision = function () {
