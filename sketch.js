@@ -12,6 +12,7 @@ function openNav(state = "Sperms Menu") {
 }
 
 function closeNav() {
+  clearInterval(startGameInterval);
   // startGameTimerFunction = setTimeout(startTheGame, startGameDelay);
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
@@ -173,3 +174,16 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
+function keyPressed() {
+  console.log(key)
+  if (key === 'Escape') { // 27 is the Escape key code
+    if(!isPaused) {
+      openNav();
+    } else {
+      closeNav();
+    }
+  }
+}
+// document.addEventListener('keydown', function(event) {
+// });

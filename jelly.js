@@ -12,7 +12,7 @@ var Jelly = function () {
 
     //Positioning the sperm at the begining
     self.putInLocation = function () {
-        
+
         if(jelliesMaxYSpawn > roadHeight) {
             jelliesMaxYSpawn = roadHeight;
             document.getElementById('jelliesMaxYSpawn').value = jelliesMaxYSpawn;
@@ -74,7 +74,7 @@ var Jelly = function () {
             }
         }
         //here we check the collision with left side of the road
-        for (var i = 1; i < roadLeft.length; i++) {
+        for (var i = 1; i < roadLeft.length - 2; i++) {
             if (roadLeft[i - 1].y < self.location.y && self.location.y < roadLeft[i + 1].y) {
                 if (self.location.x - self.r < roadLeft[i].x) {
                     var force = createVector(0.05, 0);
