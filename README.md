@@ -7,14 +7,11 @@ Choose your preferred settings or start with defaults simply by closing the paus
 ## About the making
 This game is made using Javascript P5JS and simple HTML techniques, Everything you see in this game is purely made out of code, no assets, animations, or images have been used, all done by algorithms and techniques.
 
-## More of my games like this:
-https://github.com/Devlogerio?tab=repositories
-
 ## How to run:
 Double-click on index.html
 
-## About the versions:
-Every single change is submitted and documented as files and backups on my backup hard drives, If you have any request or question about previous versions of this game or any other of my games, you should call me, I am unable to document every single of my changes on GitHub so everything is backed up other places and only the final version/versions are here.
+## More of my games like this:
+https://github.com/Devlogerio?tab=repositories
 
 ## Contact:
 Made by: Cena Abachi  
