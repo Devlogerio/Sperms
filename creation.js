@@ -39,7 +39,7 @@ function creation() {
     // jellies.push(new Jelly(2));
     // jellies.push(new Jelly(3));
   }
-  if (graphicQuality === 'high') {
+  if (graphicQuality === 1) {
     for (var i = 0; i < algasCrowd; i++) {
       leftAlgas.push(new Alga('left'));
       rightAlgas.push(new Alga('right'));

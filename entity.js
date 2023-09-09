@@ -1,5 +1,4 @@
 // Made by Cena Abachi Known as Devlogerio, find me on Youtube, Instagram, and Github: Devlogeiro LinkedIn: Cena Abachi, devloger.io@gmail.com
-
 var Entity = function () {
   var self = {
     id: Math.random(),

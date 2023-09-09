@@ -57,7 +57,6 @@ function newGame() {
   document.getElementById('mapWidth').value = mapWidth;
   document.getElementById('mapHeight').value = mapHeight;
   document.getElementById('roadWidth').value = roadWidth;
-  document.getElementById('roadEndingY').value = roadEndingY;
   document.getElementById('roadSidesForce').value = roadSidesForce;
   document.getElementById('roadsideSqueeshinessMultiplier').value = roadsideSqueeshinessMultiplier;
   document.getElementById('ovumR').value = ovumR;
@@ -66,9 +65,6 @@ function newGame() {
   document.getElementById('globalMaxveForce').value = globalMaxveForce;
   document.getElementById('globalNPCVelocityLimit').value = globalNPCVelocityLimit;
   document.getElementById('globalNPCMaxveForce').value = globalNPCMaxveForce;
-  document.getElementById('globalNPCVelocityLimitInUvom').value = globalNPCVelocityLimitInUvom;
-  document.getElementById('globalNPCMaxveForceInUvom').value = globalNPCMaxveForceInUvom;
-  document.getElementById('globalNPCMaxveForceInsideUvom').value = globalNPCMaxveForceInsideUvom;
   document.getElementById('jelliesSlowDownNPC').value = jelliesSlowDownNPC;
   document.getElementById('NPCJammersSlowedDown').value = NPCJammersSlowedDown;
   document.getElementById('jammersForce').value = jammersForce;
@@ -109,7 +105,6 @@ function draw() {
   //the player himself called me
 
 
-
   var me = sperms[0];
   //this is going to make the camera look at the player
   translate(windowWidth / 2, windowHeight / 2);
@@ -123,6 +118,7 @@ function draw() {
     uterus.draw();
   if (graphicQuality === 1) {
     for (var i in leftAlgas) {
+
       var d = me.location.y - leftAlgas[i].location.y;
       if (d <= viewDisance && d >= -viewDisance)
         leftAlgas[i].draw();
