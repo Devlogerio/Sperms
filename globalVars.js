@@ -34,7 +34,7 @@ var jammersForce = 0.2;
 var jelliesForce = -0.05;
 var uterusForce = 0.3;
 var uterusForceNPC = 0.1;
-var spermPupolation = 1; // 150
+var spermPupolation = 150; // 150
 var NPC_sperm_steering_accuracy = 1;
 
 var jammers = [];
