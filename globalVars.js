@@ -42,7 +42,7 @@ var jellies = [];
 var leftAlgas = [];
 var rightAlgas = [];
 var jammersCrowd = mapHeight / 10;
-var jelliesCrowd = mapHeight / 5;
+var jelliesCrowd = mapHeight / 8;
 var algasCrowd = mapHeight;
 var jelliesMaxYSpawn = mapHeight;
 
