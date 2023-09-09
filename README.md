@@ -10,6 +10,8 @@ This game is made using Javascript P5JS and simple HTML techniques, Everything y
 ## How to run:
 Double-click on index.html
 
+NOTE: Ignore index.php file, you can even remove it, that's just for Heroku and hosting porpuses
+
 ## More of my games like this:
 https://github.com/Devlogerio?tab=repositories
 
