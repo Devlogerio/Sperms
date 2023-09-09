@@ -1,3 +1,5 @@
+Playable at: https://dashboard.heroku.com/apps/sperms
+
 # sperms.space
 This is the Sperms race sandbox! Race as sperm in a vagina with hundreds of NPCs, try to reach the egg before you cease to exist! This is an offline sandbox game.
 
