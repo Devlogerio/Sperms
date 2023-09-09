@@ -2,7 +2,7 @@
 var isPaused = true;
 var startGameDelay = 3;
 var GlobalFPS = 30;
-var PlayerColor = "#ffffff";
+var PlayerColor = "#ffefa6";
 
 var lastWidthSize;
 var lastHeightSize;
@@ -11,7 +11,7 @@ var roadRight = [];
 var roadMiddle = [];
 var roadStrokeWeight = 1;
 var mapWidth = 800;
-var mapHeight = 1800; // 1200
+var mapHeight = 800; // 1200
 var roadWidth = 15;
 var leftRightDiffrance = 0;
 var roadEndingY = 140;
